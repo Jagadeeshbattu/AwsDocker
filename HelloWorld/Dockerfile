@@ -1,4 +1,7 @@
-FROM openjdk:8
-EXPOSE 3000
-ADD target/docker.jar docker.jar
-ENTRYPOINT ["java","-jar","/docker.jar"]
+FROM openjdk:8-jdk-alpine3.7 AS builder
+RUN java -version
+
+COPY . /usr/src/myapp/
+WORKDIR /usr/src/myapp/
+RUN apk --no-cache add maven && mvn --version
+RUN mvn package
